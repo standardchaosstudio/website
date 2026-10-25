@@ -35,6 +35,12 @@
                         charcoal: {
                             DEFAULT: '#2B2623',
                             muted: '#5C544E'
+                        },
+                        poodle: {
+                            cream: '#FFF9F0',
+                            charcoal: '#383638',
+                            harnessPink: '#EE736C',
+                            harnessTeal: '#2BA8B8'
                         }
                     },
                     fontFamily: {
@@ -62,7 +68,6 @@
             color: #2B2623;
         }
 
-        /* Subtle organic cloud-like curves */
         .cloud-card {
             background-color: #FFFCF7;
             border: 2px solid #EAD7C3;
@@ -76,7 +81,6 @@
             box-shadow: 0 20px 35px -10px rgba(217, 107, 67, 0.15);
         }
 
-        /* Fluffy cloud floating animation */
         @keyframes gentleFloat {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-8px) rotate(1deg); }
@@ -84,6 +88,71 @@
 
         .animate-float {
             animation: gentleFloat 4s ease-in-out infinite;
+        }
+
+        /* Running Poodle Leg & Bounce Animations */
+        @keyframes legFront {
+            0%, 100% { transform: rotate(20deg); }
+            50% { transform: rotate(-25deg); }
+        }
+        @keyframes legBack {
+            0%, 100% { transform: rotate(-25deg); }
+            50% { transform: rotate(20deg); }
+        }
+        @keyframes poodleBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes tailWag {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(18deg); }
+        }
+
+        .animate-bounce-run {
+            animation: poodleBounce 0.35s infinite ease-in-out;
+        }
+        .anim-leg-1 {
+            transform-origin: 30px 65px;
+            animation: legFront 0.35s infinite ease-in-out;
+        }
+        .anim-leg-2 {
+            transform-origin: 30px 65px;
+            animation: legBack 0.35s infinite ease-in-out;
+        }
+        .anim-leg-3 {
+            transform-origin: 85px 65px;
+            animation: legBack 0.35s infinite ease-in-out;
+        }
+        .anim-leg-4 {
+            transform-origin: 85px 65px;
+            animation: legFront 0.35s infinite ease-in-out;
+        }
+        .anim-tail {
+            transform-origin: 20px 40px;
+            animation: tailWag 0.25s infinite ease-in-out;
+        }
+
+        /* Screen Crossing Container */
+        #poodleRunContainer {
+            position: fixed;
+            bottom: 25px;
+            left: -350px;
+            z-index: 99;
+            pointer-events: none;
+            transition: transform 0.1s linear;
+        }
+
+        #poodleRunContainer.active-run {
+            animation: runAcross 8s linear forwards;
+        }
+
+        @keyframes runAcross {
+            0% {
+                left: -320px;
+            }
+            100% {
+                left: 105vw;
+            }
         }
 
         /* Fluffy Particle Popup */
@@ -98,12 +167,6 @@
             0% { opacity: 1; transform: translateY(0) scale(0.6) rotate(0deg); }
             50% { opacity: 0.9; transform: translateY(-60px) scale(1.2) rotate(15deg); }
             100% { opacity: 0; transform: translateY(-120px) scale(0.8) rotate(-10deg); }
-        }
-
-        .curly-border {
-            border-style: dashed;
-            border-width: 2px;
-            border-color: #EE9473;
         }
     </style>
 </head>
@@ -131,12 +194,17 @@
             <!-- Desktop Nav -->
             <nav class="hidden md:flex items-center gap-8 text-xs font-bold tracking-widest uppercase text-charcoal-muted">
                 <a href="#about" class="hover:text-terracotta transition-colors">Vibe</a>
+                <a href="#mascots" class="hover:text-terracotta transition-colors">Mascots</a>
                 <a href="#gallery" class="hover:text-terracotta transition-colors">Gallery</a>
                 <a href="#contact" class="hover:text-terracotta transition-colors">Contact</a>
             </nav>
 
-            <!-- Email Direct CTA -->
+            <!-- Mascot Action & Email Direct CTA -->
             <div class="hidden md:flex items-center gap-3">
+                <button onclick="triggerPoodleRun()" class="px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-charcoal bg-sunshine hover:bg-sunshine/80 rounded-full shadow-sm transition-all flex items-center gap-2 hover:scale-105">
+                    <i class="fa-solid fa-paw text-terracotta"></i>
+                    <span>Run Poodles!</span>
+                </button>
                 <a href="mailto:standardchaosstudio@gmail.com" class="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-terracotta hover:bg-terracotta-hover rounded-full shadow-md transition-all flex items-center gap-2 hover:scale-105">
                     <i class="fa-regular fa-envelope"></i>
                     <span>Email Us</span>
@@ -152,8 +220,12 @@
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="hidden md:hidden border-t border-fluff-border bg-cream-50 px-6 py-6 space-y-4 text-center">
             <a href="#about" class="block text-xs uppercase tracking-widest font-bold text-charcoal-muted hover:text-terracotta">Vibe</a>
+            <a href="#mascots" class="block text-xs uppercase tracking-widest font-bold text-charcoal-muted hover:text-terracotta">Mascots</a>
             <a href="#gallery" class="block text-xs uppercase tracking-widest font-bold text-charcoal-muted hover:text-terracotta">Gallery</a>
             <a href="#contact" class="block text-xs uppercase tracking-widest font-bold text-charcoal-muted hover:text-terracotta">Contact</a>
+            <button onclick="triggerPoodleRun()" class="w-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-charcoal bg-sunshine rounded-full shadow-sm">
+                🐾 Run Poodles Across Screen!
+            </button>
             <a href="mailto:standardchaosstudio@gmail.com" class="inline-block mt-2 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white bg-terracotta rounded-full">
                 standardchaosstudio@gmail.com
             </a>
@@ -192,43 +264,78 @@
                         <i class="fa-solid fa-arrow-down"></i>
                     </a>
                     
-                    <!-- Interactive Fluff Generator Button -->
-                    <button onclick="triggerFluffBoost(event)" class="px-7 py-4 bg-cream-50 hover:bg-white border-2 border-fluff-border text-charcoal text-xs font-bold uppercase tracking-wider rounded-full transition-all hover:border-terracotta hover:-translate-y-1 flex items-center gap-2 shadow-sm">
-                        <i class="fa-solid fa-wand-magic-sparkles text-sunshine"></i>
-                        <span>Boost Good Vibes</span>
+                    <!-- Interactive Mascot Sprint Trigger -->
+                    <button onclick="triggerPoodleRun()" class="px-7 py-4 bg-cream-50 hover:bg-white border-2 border-fluff-border text-charcoal text-xs font-bold uppercase tracking-wider rounded-full transition-all hover:border-terracotta hover:-translate-y-1 flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-paw text-sunshine"></i>
+                        <span>Release Poodles!</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Hero Visual Accent (Poodle Line-Art Doodle & Cloud Shapes) -->
+            <!-- Hero Visual Accent (Illustrated Poodle Duo Card) -->
             <div class="lg:col-span-5 flex justify-center">
-                <div class="relative w-full max-w-md aspect-square bg-cream-50 rounded-[3rem] p-8 border-2 border-fluff-border shadow-cloud flex flex-col items-center justify-center animate-float">
+                <div class="relative w-full max-w-md bg-cream-50 rounded-[3rem] p-8 border-2 border-fluff-border shadow-cloud flex flex-col items-center justify-center animate-float">
                     
-                    <!-- Decorative Soft Floating Pompoms -->
-                    <div class="absolute -top-4 -right-2 w-16 h-16 bg-sunshine/30 rounded-full blur-xl"></div>
-                    <div class="absolute -bottom-4 -left-2 w-20 h-20 bg-terracotta/20 rounded-full blur-xl"></div>
+                    <!-- Decorative Soft Background Glows -->
+                    <div class="absolute -top-4 -right-2 w-20 h-20 bg-sunshine/30 rounded-full blur-xl"></div>
+                    <div class="absolute -bottom-4 -left-2 w-24 h-24 bg-terracotta/20 rounded-full blur-xl"></div>
 
-                    <!-- Soft Curly Poodle Line-Art Doodle -->
-                    <svg class="w-64 h-64 text-charcoal" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Topknot Puff -->
-                        <path d="M90 35C80 35 72 44 75 55C65 55 58 63 60 74C52 77 50 88 57 95C64 102 75 100 80 96C86 104 98 107 107 101C115 95 118 83 113 75C120 66 114 53 106 50C105 40 98 35 90 35Z" fill="#F4B942" fill-opacity="0.25" stroke="#D96B43" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <!-- Ears Curly Puffs -->
-                        <path d="M60 75C48 80 42 95 48 110C54 125 68 120 72 105" stroke="#2B2623" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M115 75C127 80 133 95 127 110C121 125 107 120 103 105" stroke="#2B2623" stroke-width="2.5" stroke-linecap="round"/>
-                        <!-- Snout & Beard Puff -->
-                        <path d="M78 96C85 108 105 108 112 96C118 108 110 125 95 125C80 125 72 108 78 96Z" stroke="#D96B43" stroke-width="2.5" stroke-linecap="round"/>
-                        <!-- Cute Nose -->
-                        <ellipse cx="95" cy="98" rx="5" ry="3.5" fill="#2B2623"/>
-                        <!-- Happy Eyes -->
-                        <circle cx="82" cy="78" r="3" fill="#2B2623"/>
-                        <circle cx="108" cy="78" r="3" fill="#2B2623"/>
-                        <!-- Chest Fluff Cloud -->
-                        <path d="M70 125C55 135 55 160 75 165C85 170 105 170 115 165C135 160 135 135 120 125" stroke="#2B2623" stroke-width="2" stroke-dasharray="4 4"/>
-                    </svg>
+                    <!-- Poodle Duo SVG Card -->
+                    <div class="w-full flex justify-center items-center py-4">
+                        <svg class="w-72 h-48" viewBox="0 0 260 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cream Poodle (Left) -->
+                            <g transform="translate(10, 15)">
+                                <!-- Ears / Topknot Puffs -->
+                                <circle cx="55" cy="35" r="16" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="2"/>
+                                <circle cx="38" cy="48" r="12" fill="#FAF4E8" stroke="#EAD7C3" stroke-width="2"/>
+                                <circle cx="72" cy="48" r="12" fill="#FAF4E8" stroke="#EAD7C3" stroke-width="2"/>
+                                <!-- Head & Snout -->
+                                <circle cx="55" cy="50" r="15" fill="#FFF9F0"/>
+                                <ellipse cx="55" cy="56" rx="9" ry="7" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="2"/>
+                                <ellipse cx="55" cy="53" rx="3" ry="2" fill="#2B2623"/>
+                                <circle cx="48" cy="46" r="2" fill="#2B2623"/>
+                                <circle cx="62" cy="46" r="2" fill="#2B2623"/>
+                                <!-- Body & Puff Chest -->
+                                <path d="M35 75C35 60 75 60 75 75C75 110 35 110 35 75Z" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="2"/>
+                                <!-- Salmon Harness -->
+                                <path d="M42 78C48 85 62 85 68 78" stroke="#EE736C" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M55 75V95" stroke="#EE736C" stroke-width="3"/>
+                                <!-- Legs -->
+                                <rect x="42" y="105" width="8" height="30" rx="4" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="2"/>
+                                <rect x="60" y="105" width="8" height="30" rx="4" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="2"/>
+                                <!-- Pom Pom Tail -->
+                                <circle cx="28" cy="70" r="8" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="2"/>
+                            </g>
+
+                            <!-- Charcoal Poodle (Right) -->
+                            <g transform="translate(130, 10)">
+                                <!-- Ears / Topknot Puffs -->
+                                <circle cx="55" cy="35" r="17" fill="#383638" stroke="#2B2623" stroke-width="2"/>
+                                <circle cx="36" cy="48" r="13" fill="#2B2623"/>
+                                <circle cx="74" cy="48" r="13" fill="#2B2623"/>
+                                <!-- Head & Snout -->
+                                <circle cx="55" cy="50" r="16" fill="#383638"/>
+                                <ellipse cx="55" cy="57" rx="9" ry="7" fill="#383638" stroke="#2B2623" stroke-width="1.5"/>
+                                <ellipse cx="55" cy="54" rx="3.5" ry="2.5" fill="#1A1817"/>
+                                <circle cx="47" cy="46" r="2" fill="#FAF4E8"/>
+                                <circle cx="63" cy="46" r="2" fill="#FAF4E8"/>
+                                <!-- Body & Puff Chest -->
+                                <path d="M33 75C33 58 77 58 77 75C77 112 33 112 33 75Z" fill="#383638" stroke="#2B2623" stroke-width="2"/>
+                                <!-- Teal Harness -->
+                                <path d="M40 78C48 86 62 86 70 78" stroke="#2BA8B8" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M55 75V98" stroke="#2BA8B8" stroke-width="3"/>
+                                <!-- Legs -->
+                                <rect x="40" y="108" width="9" height="32" rx="4.5" fill="#383638" stroke="#2B2623" stroke-width="2"/>
+                                <rect x="61" y="108" width="9" height="32" rx="4.5" fill="#383638" stroke="#2B2623" stroke-width="2"/>
+                                <!-- Pom Pom Tail -->
+                                <circle cx="25" cy="68" r="9" fill="#383638" stroke="#2B2623" stroke-width="2"/>
+                            </g>
+                        </svg>
+                    </div>
                     
                     <div class="mt-2 text-center">
                         <span class="inline-block px-4 py-1.5 rounded-full bg-cream-100 border border-fluff-border text-xs font-bold text-terracotta tracking-wider uppercase">
-                            <i class="fa-solid fa-shield-cat mr-1"></i> Studio Mascot Approved
+                            <i class="fa-solid fa-paw mr-1 text-sunshine"></i> Official Studio Mascots
                         </span>
                     </div>
 
@@ -238,8 +345,48 @@
         </div>
     </section>
 
+    <!-- Studio Mascots Spotlight Section -->
+    <section id="mascots" class="py-16 bg-cream-100/60 border-y border-fluff-border">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <span class="text-xs font-bold uppercase tracking-widest text-terracotta">Meet The Crew</span>
+            <h2 class="font-display text-3xl sm:text-4xl font-bold text-charcoal mt-1 mb-10">Our Standard Poodle Mascots</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                
+                <!-- Cream Poodle Card -->
+                <div class="p-8 bg-cream-50 rounded-3xl border border-fluff-border shadow-cloud flex flex-col items-center text-center space-y-4">
+                    <div class="w-20 h-20 rounded-full bg-poodle-cream border-4 border-poodle-harnessPink flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-dog text-3xl text-terracotta"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold tracking-widest uppercase text-terracotta px-3 py-1 bg-terracotta/10 rounded-full">Salmon Harness Crew</span>
+                        <h3 class="font-display text-xl font-bold text-charcoal mt-2">The Cream Standard</h3>
+                    </div>
+                    <p class="text-xs text-charcoal-muted leading-relaxed">
+                        Sunny disposition, fluffy topknot, and full of gentle curious energy.
+                    </p>
+                </div>
+
+                <!-- Charcoal Poodle Card -->
+                <div class="p-8 bg-cream-50 rounded-3xl border border-fluff-border shadow-cloud flex flex-col items-center text-center space-y-4">
+                    <div class="w-20 h-20 rounded-full bg-poodle-charcoal border-4 border-poodle-harnessTeal flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-dog text-3xl text-poodle-harnessTeal"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold tracking-widest uppercase text-poodle-harnessTeal px-3 py-1 bg-poodle-harnessTeal/10 rounded-full">Teal Harness Crew</span>
+                        <h3 class="font-display text-xl font-bold text-charcoal mt-2">The Dark Charcoal Standard</h3>
+                    </div>
+                    <p class="text-xs text-charcoal-muted leading-relaxed">
+                        Regal curly silhouette, quiet chaos supervisor, and expert vibe inspector.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- Vibe / About Section -->
-    <section id="about" class="py-20 bg-cream-100 border-y border-fluff-border">
+    <section id="about" class="py-20 bg-cream-100 border-b border-fluff-border">
         <div class="max-w-7xl mx-auto px-6">
             
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -257,7 +404,7 @@
                         Standard Chaos Studio is opening its doors in 2026. We make physical artwork, sculptures, and mixed creations meant to light up any room.
                     </p>
                     <p>
-                        Under the watchful eye of our standard poodle, our studio philosophy is simple: keep things lively, stay curious, and always live and let live.
+                        Under the watchful eye of our two standard poodles, our studio philosophy is simple: keep things lively, stay curious, and always live and let live.
                     </p>
 
                     <!-- Feature Badges -->
@@ -267,7 +414,7 @@
                             <div class="text-xs font-bold text-charcoal uppercase tracking-wider">Original Art</div>
                         </div>
                         <div class="p-4 bg-cream-50 rounded-2xl border border-fluff-border text-center">
-                            <i class="fa-solid fa-dog text-sunshine text-lg mb-1"></i>
+                            <i class="fa-solid fa-paw text-sunshine text-lg mb-1"></i>
                             <div class="text-xs font-bold text-charcoal uppercase tracking-wider">Good Energy</div>
                         </div>
                         <div class="p-4 bg-cream-50 rounded-2xl border border-fluff-border text-center col-span-2 sm:col-span-1">
@@ -467,8 +614,9 @@
                 <span>© 2026</span>
             </div>
             
-            <div class="font-display text-sm text-terracotta font-bold tracking-widest uppercase">
-                Live and let live.
+            <div class="font-display text-sm text-terracotta font-bold tracking-widest uppercase flex items-center gap-2">
+                <i class="fa-solid fa-paw text-sunshine"></i>
+                <span>Live and let live.</span>
             </div>
 
             <div class="flex items-center gap-4">
@@ -479,6 +627,71 @@
             </div>
         </div>
     </footer>
+
+    <!-- Animated Screen-Crossing Poodles Container -->
+    <div id="poodleRunContainer">
+        <div class="flex items-end gap-3 animate-bounce-run">
+            
+            <!-- White/Cream Poodle (Leading with Salmon Harness) -->
+            <svg class="w-36 h-28 drop-shadow-md" viewBox="0 0 130 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Tail Puff -->
+                <circle cx="15" cy="35" r="7" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="1.5" class="anim-tail"/>
+                <!-- Back Leg 1 -->
+                <rect x="25" y="55" width="7" height="26" rx="3.5" fill="#FAF4E8" stroke="#EAD7C3" stroke-width="1.5" class="anim-leg-1"/>
+                <!-- Back Leg 2 -->
+                <rect x="35" y="55" width="7" height="26" rx="3.5" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="1.5" class="anim-leg-2"/>
+                <!-- Body Cloud -->
+                <ellipse cx="50" cy="50" rx="28" ry="18" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="1.5"/>
+                <!-- Salmon Pink Harness -->
+                <path d="M48 34C58 42 66 52 70 60" stroke="#EE736C" stroke-width="4" stroke-linecap="round"/>
+                <path d="M42 45L62 45" stroke="#EE736C" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- Front Leg 1 -->
+                <rect x="68" y="55" width="7" height="26" rx="3.5" fill="#FAF4E8" stroke="#EAD7C3" stroke-width="1.5" class="anim-leg-3"/>
+                <!-- Front Leg 2 -->
+                <rect x="78" y="55" width="7" height="26" rx="3.5" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="1.5" class="anim-leg-4"/>
+                <!-- Neck & Fluffy Topknot Head -->
+                <circle cx="92" cy="32" r="14" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="1.5"/>
+                <circle cx="95" cy="20" r="10" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="1.5"/>
+                <!-- Fluffy Ear -->
+                <ellipse cx="84" cy="34" rx="6" ry="12" fill="#FAF4E8" stroke="#EAD7C3" stroke-width="1.5"/>
+                <!-- Snout & Nose -->
+                <ellipse cx="104" cy="34" rx="7" ry="5" fill="#FFF9F0" stroke="#EAD7C3" stroke-width="1.5"/>
+                <circle cx="109" cy="32" r="2.5" fill="#2B2623"/>
+                <!-- Happy Eye -->
+                <circle cx="96" cy="28" r="1.8" fill="#2B2623"/>
+            </svg>
+
+            <!-- Dark Charcoal Poodle (Following with Teal Harness) -->
+            <svg class="w-36 h-28 drop-shadow-md" viewBox="0 0 130 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Tail Puff -->
+                <circle cx="15" cy="35" r="7.5" fill="#383638" stroke="#2B2623" stroke-width="1.5" class="anim-tail"/>
+                <!-- Back Leg 1 -->
+                <rect x="25" y="55" width="7.5" height="27" rx="3.75" fill="#2B2623" class="anim-leg-1"/>
+                <!-- Back Leg 2 -->
+                <rect x="35" y="55" width="7.5" height="27" rx="3.75" fill="#383638" stroke="#2B2623" stroke-width="1.5" class="anim-leg-2"/>
+                <!-- Body Cloud -->
+                <ellipse cx="50" cy="50" rx="28" ry="18" fill="#383638" stroke="#2B2623" stroke-width="1.5"/>
+                <!-- Teal Harness -->
+                <path d="M48 34C58 42 66 52 70 60" stroke="#2BA8B8" stroke-width="4" stroke-linecap="round"/>
+                <path d="M42 45L62 45" stroke="#2BA8B8" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- Front Leg 1 -->
+                <rect x="68" y="55" width="7.5" height="27" rx="3.75" fill="#2B2623" class="anim-leg-3"/>
+                <!-- Front Leg 2 -->
+                <rect x="78" y="55" width="7.5" height="27" rx="3.75" fill="#383638" stroke="#2B2623" stroke-width="1.5" class="anim-leg-4"/>
+                <!-- Neck & Fluffy Topknot Head -->
+                <circle cx="92" cy="32" r="14.5" fill="#383638" stroke="#2B2623" stroke-width="1.5"/>
+                <circle cx="95" cy="20" r="10.5" fill="#383638" stroke="#2B2623" stroke-width="1.5"/>
+                <!-- Fluffy Ear -->
+                <ellipse cx="84" cy="34" rx="6" ry="12.5" fill="#2B2623"/>
+                <!-- Snout & Nose -->
+                <ellipse cx="104" cy="34" rx="7" ry="5" fill="#383638" stroke="#2B2623" stroke-width="1.5"/>
+                <circle cx="109" cy="32" r="2.5" fill="#1A1817"/>
+                <!-- Eye -->
+                <circle cx="96" cy="28" r="1.8" fill="#FAF4E8"/>
+            </svg>
+
+        </div>
+    </div>
 
     <!-- Lightbox Modal -->
     <div id="lightbox" class="fixed inset-0 z-50 bg-charcoal/60 backdrop-blur-sm hidden flex items-center justify-center p-6">
@@ -501,7 +714,7 @@
         </div>
     </div>
 
-    <!-- Toast Banner for Fluff Boost -->
+    <!-- Toast Banner for Mascot Action -->
     <div id="vibeToast" class="fixed bottom-6 right-6 z-50 hidden bg-white border-2 border-sunshine px-6 py-4 rounded-2xl shadow-fluffy flex items-center gap-3 animate-bounce">
         <i class="fa-solid fa-paw text-terracotta text-lg"></i>
         <span id="vibeQuote" class="text-xs font-bold text-charcoal">Live and let live! 🐾</span>
@@ -562,45 +775,42 @@
             }, 4000);
         }
 
-        // Interactive Fluff & Vibe Particle Boost
-        const quotes = [
-            "Live and let live! 🐾",
-            "Good energy, soft fluff, big art! ✨",
-            "Studio mascot says: Keep creating! 🐩",
-            "2026 is going to be wonderful ☀️",
-            "You do you, man!"
-            "Stay curious and stay fluffy! ☁️"
-        ];
+        // Mascot Screen-Crossing Animation Controller
+        let isRunning = false;
+        function triggerPoodleRun() {
+            if (isRunning) return;
+            isRunning = true;
+            
+            const container = document.getElementById('poodleRunContainer');
+            container.classList.remove('active-run');
+            void container.offsetWidth; // Force reflow
+            container.classList.add('active-run');
 
-        function triggerFluffBoost(e) {
-            // Spawn floating fluff particles
-            const symbols = ['🐩', '☁️', '✨', '🐾', '💛'];
-            for (let i = 0; i < 6; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'fluff-particle text-2xl';
-                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                
-                // Position near click or center
-                const x = e.clientX + (Math.random() * 80 - 40);
-                const y = e.clientY + (Math.random() * 80 - 40);
-                
-                particle.style.left = `${x}px`;
-                particle.style.top = `${y}px`;
-                document.body.appendChild(particle);
+            showVibeToast("The Standard Poodles are on the run! 🐩🐩");
 
-                setTimeout(() => particle.remove(), 1800);
-            }
+            setTimeout(() => {
+                container.classList.remove('active-run');
+                isRunning = false;
+            }, 8200);
+        }
 
-            // Show Motivational Vibe Toast
+        function showVibeToast(msg) {
             const toast = document.getElementById('vibeToast');
             const quoteEl = document.getElementById('vibeQuote');
-            quoteEl.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+            quoteEl.textContent = msg;
             toast.classList.remove('hidden');
 
             setTimeout(() => {
                 toast.classList.add('hidden');
-            }, 3000);
+            }, 3500);
         }
+
+        // Automatically run poodles every 22 seconds for good vibes
+        setInterval(() => {
+            if (!isRunning) {
+                triggerPoodleRun();
+            }
+        }, 22000);
     </script>
 </body>
 </html>
