@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Chaos Studio — Live and Let Live</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FFFCF7',
+                            100: '#FAF4E8',
+                            200: '#F4E7D0',
+                            300: '#E8D4B1',
+                        },
+                        fluff: {
+                            light: '#FFF9F2',
+                            puff: '#F6EADE',
+                            border: '#EAD7C3',
+                        },
+                        terracotta: {
+                            DEFAULT: '#D96B43',
+                            hover: '#C25730',
+                            soft: '#EE9473',
+                            light: '#FDF0EC'
+                        },
+                        sunshine: {
+                            DEFAULT: '#F4B942',
+                            soft: '#FDF6E2'
+                        },
+                        charcoal: {
+                            DEFAULT: '#2B2623',
+                            muted: '#5C544E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'cloud': '0 20px 40px -15px rgba(217, 107, 67, 0.08), 0 10px 20px -10px rgba(43, 38, 35, 0.04)',
+                        'fluffy': '0 12px 30px -5px rgba(244, 185, 66, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #FAF4E8;
+            color: #2B2623;
+        }
+
+        /* Subtle organic cloud-like curves */
+        .cloud-card {
+            background-color: #FFFCF7;
+            border: 2px solid #EAD7C3;
+            border-radius: 2rem;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cloud-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: #D96B43;
+            box-shadow: 0 20px 35px -10px rgba(217, 107, 67, 0.15);
+        }
+
+        /* Fluffy cloud floating animation */
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+
+        .animate-float {
+            animation: gentleFloat 4s ease-in-out infinite;
+        }
+
+        /* Fluffy Particle Popup */
+        .fluff-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: floatUpFade 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes floatUpFade {
+            0% { opacity: 1; transform: translateY(0) scale(0.6) rotate(0deg); }
+            50% { opacity: 0.9; transform: translateY(-60px) scale(1.2) rotate(15deg); }
+            100% { opacity: 0; transform: translateY(-120px) scale(0.8) rotate(-10deg); }
+        }
+
+        .curly-border {
+            border-style: dashed;
+            border-width: 2px;
+            border-color: #EE9473;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-terracotta selection:text-white relative overflow-x-hidden">
+
+    <!-- Top Motto Banner -->
+    <div class="bg-sunshine text-charcoal text-xs font-bold tracking-[0.2em] uppercase py-2.5 px-4 text-center flex items-center justify-center gap-3">
+        <i class="fa-solid fa-paw text-xs text-terracotta"></i>
+        <span>EST. 2026</span>
+        <span>•</span>
+        <span class="font-display tracking-[0.25em]">LIVE AND LET LIVE</span>
+        <span>•</span>
+        <span>STANDARD CHAOS STUDIO</span>
+        <i class="fa-solid fa-paw text-xs text-terracotta"></i>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-cream-100/90 backdrop-blur-md border-b border-fluff-border">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Typographic Branding -->
+            <a href="#" class="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-charcoal hover:text-terracotta transition-colors flex items-center gap-2">
+                <span>STANDARD CHAOS STUDIO</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center gap-8 text-xs font-bold tracking-widest uppercase text-charcoal-muted">
+                <a href="#about" class="hover:text-terracotta transition-colors">Vibe</a>
+                <a href="#gallery" class="hover:text-terracotta transition-colors">Gallery</a>
+                <a href="#contact" class="hover:text-terracotta transition-colors">Contact</a>
+            </nav>
+
+            <!-- Email Direct CTA -->
+            <div class="hidden md:flex items-center gap-3">
+                <a href="mailto:standardchaosstudio@gmail.com" class="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-terracotta hover:bg-terracotta-hover rounded-full shadow-md transition-all flex items-center gap-2 hover:scale-105">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>Email Us</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden p-2 text-charcoal hover:text-terracotta focus:outline-none">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-fluff-border bg-cream-50 px-6 py-6 space-y-4 text-center">
+            <a href="#about" class="block text-xs uppercase tracking-widest font-bold text-charcoal-muted hover:text-terracotta">Vibe</a>
+            <a href="#gallery" class="block text-xs uppercase tracking-widest font-bold text-charcoal-muted hover:text-terracotta">Gallery</a>
+            <a href="#contact" class="block text-xs uppercase tracking-widest font-bold text-charcoal-muted hover:text-terracotta">Contact</a>
+            <a href="mailto:standardchaosstudio@gmail.com" class="inline-block mt-2 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white bg-terracotta rounded-full">
+                standardchaosstudio@gmail.com
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative py-16 lg:py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Hero Copy -->
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sunshine-soft border border-sunshine/40 text-charcoal text-xs font-bold tracking-wide shadow-sm">
+                    <i class="fa-solid fa-cloud text-terracotta animate-pulse"></i>
+                    <span>Launching 2026</span>
+                    <span class="text-terracotta">•</span>
+                    <span class="text-terracotta font-semibold">Live and Let Live</span>
+                </div>
+
+                <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-charcoal leading-[1.08]">
+                    STANDARD CHAOS STUDIO
+                </h1>
+
+                <p class="font-display text-2xl sm:text-3xl text-terracotta font-bold tracking-wide">
+                    Art, energy & good fluff.
+                </p>
+
+                <p class="text-base sm:text-lg text-charcoal-muted font-normal leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    An independent art space built on vibrant imagination, tactile creations, and taking life with a light step.
+                </p>
+
+                <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                    <a href="#gallery" class="px-7 py-4 bg-terracotta hover:bg-terracotta-hover text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-fluffy transition-all hover:-translate-y-1 flex items-center gap-2">
+                        <span>Explore Gallery</span>
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                    
+                    <!-- Interactive Fluff Generator Button -->
+                    <button onclick="triggerFluffBoost(event)" class="px-7 py-4 bg-cream-50 hover:bg-white border-2 border-fluff-border text-charcoal text-xs font-bold uppercase tracking-wider rounded-full transition-all hover:border-terracotta hover:-translate-y-1 flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-wand-magic-sparkles text-sunshine"></i>
+                        <span>Boost Good Vibes</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hero Visual Accent (Poodle Line-Art Doodle & Cloud Shapes) -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative w-full max-w-md aspect-square bg-cream-50 rounded-[3rem] p-8 border-2 border-fluff-border shadow-cloud flex flex-col items-center justify-center animate-float">
+                    
+                    <!-- Decorative Soft Floating Pompoms -->
+                    <div class="absolute -top-4 -right-2 w-16 h-16 bg-sunshine/30 rounded-full blur-xl"></div>
+                    <div class="absolute -bottom-4 -left-2 w-20 h-20 bg-terracotta/20 rounded-full blur-xl"></div>
+
+                    <!-- Soft Curly Poodle Line-Art Doodle -->
+                    <svg class="w-64 h-64 text-charcoal" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Topknot Puff -->
+                        <path d="M90 35C80 35 72 44 75 55C65 55 58 63 60 74C52 77 50 88 57 95C64 102 75 100 80 96C86 104 98 107 107 101C115 95 118 83 113 75C120 66 114 53 106 50C105 40 98 35 90 35Z" fill="#F4B942" fill-opacity="0.25" stroke="#D96B43" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- Ears Curly Puffs -->
+                        <path d="M60 75C48 80 42 95 48 110C54 125 68 120 72 105" stroke="#2B2623" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M115 75C127 80 133 95 127 110C121 125 107 120 103 105" stroke="#2B2623" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Snout & Beard Puff -->
+                        <path d="M78 96C85 108 105 108 112 96C118 108 110 125 95 125C80 125 72 108 78 96Z" stroke="#D96B43" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- Cute Nose -->
+                        <ellipse cx="95" cy="98" rx="5" ry="3.5" fill="#2B2623"/>
+                        <!-- Happy Eyes -->
+                        <circle cx="82" cy="78" r="3" fill="#2B2623"/>
+                        <circle cx="108" cy="78" r="3" fill="#2B2623"/>
+                        <!-- Chest Fluff Cloud -->
+                        <path d="M70 125C55 135 55 160 75 165C85 170 105 170 115 165C135 160 135 135 120 125" stroke="#2B2623" stroke-width="2" stroke-dasharray="4 4"/>
+                    </svg>
+                    
+                    <div class="mt-2 text-center">
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-cream-100 border border-fluff-border text-xs font-bold text-terracotta tracking-wider uppercase">
+                            <i class="fa-solid fa-shield-cat mr-1"></i> Studio Mascot Approved
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Vibe / About Section -->
+    <section id="about" class="py-20 bg-cream-100 border-y border-fluff-border">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-5 space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-widest text-terracotta">Our Vibe</span>
+                    <h2 class="font-display text-3xl sm:text-5xl font-bold text-charcoal">
+                        Big creativity. Zero stress.
+                    </h2>
+                    <div class="w-16 h-1 bg-sunshine rounded-full"></div>
+                </div>
+
+                <div class="lg:col-span-7 space-y-6 text-charcoal-muted text-base leading-relaxed">
+                    <p class="text-lg text-charcoal font-medium">
+                        Standard Chaos Studio is opening its doors in 2026. We make physical artwork, sculptures, and mixed creations meant to light up any room.
+                    </p>
+                    <p>
+                        Under the watchful eye of our standard poodle, our studio philosophy is simple: keep things lively, stay curious, and always live and let live.
+                    </p>
+
+                    <!-- Feature Badges -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
+                        <div class="p-4 bg-cream-50 rounded-2xl border border-fluff-border text-center">
+                            <i class="fa-solid fa-palette text-terracotta text-lg mb-1"></i>
+                            <div class="text-xs font-bold text-charcoal uppercase tracking-wider">Original Art</div>
+                        </div>
+                        <div class="p-4 bg-cream-50 rounded-2xl border border-fluff-border text-center">
+                            <i class="fa-solid fa-dog text-sunshine text-lg mb-1"></i>
+                            <div class="text-xs font-bold text-charcoal uppercase tracking-wider">Good Energy</div>
+                        </div>
+                        <div class="p-4 bg-cream-50 rounded-2xl border border-fluff-border text-center col-span-2 sm:col-span-1">
+                            <i class="fa-solid fa-sparkles text-terracotta text-lg mb-1"></i>
+                            <div class="text-xs font-bold text-charcoal uppercase tracking-wider">Coming 2026</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Artwork Gallery Section -->
+    <section id="gallery" class="py-24 max-w-7xl mx-auto px-6">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-widest text-terracotta">Preview Archive</span>
+                <h2 class="font-display text-3xl sm:text-5xl font-bold text-charcoal mt-1">Artwork Gallery</h2>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap gap-2 bg-cream-50 p-1.5 rounded-full border border-fluff-border shadow-sm">
+                <button class="filter-btn active px-5 py-2 rounded-full text-xs font-bold tracking-wider transition-all bg-terracotta text-white shadow-sm" data-filter="all">ALL</button>
+                <button class="filter-btn px-5 py-2 rounded-full text-xs font-bold tracking-wider transition-all text-charcoal-muted hover:text-terracotta" data-filter="works">WORKS</button>
+                <button class="filter-btn px-5 py-2 rounded-full text-xs font-bold tracking-wider transition-all text-charcoal-muted hover:text-terracotta" data-filter="sculptures">SCULPTURES</button>
+                <button class="filter-btn px-5 py-2 rounded-full text-xs font-bold tracking-wider transition-all text-charcoal-muted hover:text-terracotta" data-filter="mixed">MIXED</button>
+            </div>
+        </div>
+
+        <!-- Artwork Placeholder Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="galleryGrid">
+            
+            <!-- Card 1 -->
+            <div class="gallery-item cloud-card p-4 cursor-pointer group" data-category="works" onclick="openLightbox('Cloud Study No. 1', 'Works', 'Official collection image uploading for 2026 launch.')">
+                <div class="aspect-[4/3] bg-cream-100 rounded-2xl flex flex-col items-center justify-center p-6 text-center border border-fluff-border group-hover:bg-sunshine-soft transition-colors relative overflow-hidden">
+                    <i class="fa-solid fa-image text-3xl text-terracotta/40 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs font-mono font-bold text-charcoal-muted">ARTWORK UPLOAD PENDING</span>
+                    <span class="text-[10px] text-terracotta font-semibold mt-1">2026 Release</span>
+                </div>
+                <div class="p-4 pt-5">
+                    <div class="flex items-center justify-between text-xs text-terracotta font-bold uppercase tracking-wider mb-1">
+                        <span>Works</span>
+                        <span>2026</span>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-charcoal group-hover:text-terracotta transition-colors">Cloud Study No. 1</h3>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="gallery-item cloud-card p-4 cursor-pointer group" data-category="sculptures" onclick="openLightbox('Fluff & Form', 'Sculptures', 'Official collection image uploading for 2026 launch.')">
+                <div class="aspect-[4/3] bg-cream-100 rounded-2xl flex flex-col items-center justify-center p-6 text-center border border-fluff-border group-hover:bg-sunshine-soft transition-colors relative overflow-hidden">
+                    <i class="fa-solid fa-shapes text-3xl text-sunshine mb-2 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs font-mono font-bold text-charcoal-muted">ARTWORK UPLOAD PENDING</span>
+                    <span class="text-[10px] text-terracotta font-semibold mt-1">2026 Release</span>
+                </div>
+                <div class="p-4 pt-5">
+                    <div class="flex items-center justify-between text-xs text-terracotta font-bold uppercase tracking-wider mb-1">
+                        <span>Sculptures</span>
+                        <span>2026</span>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-charcoal group-hover:text-terracotta transition-colors">Fluff & Form</h3>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="gallery-item cloud-card p-4 cursor-pointer group" data-category="mixed" onclick="openLightbox('Golden Energy', 'Mixed', 'Official collection image uploading for 2026 launch.')">
+                <div class="aspect-[4/3] bg-cream-100 rounded-2xl flex flex-col items-center justify-center p-6 text-center border border-fluff-border group-hover:bg-sunshine-soft transition-colors relative overflow-hidden">
+                    <i class="fa-solid fa-layer-group text-3xl text-terracotta/40 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs font-mono font-bold text-charcoal-muted">ARTWORK UPLOAD PENDING</span>
+                    <span class="text-[10px] text-terracotta font-semibold mt-1">2026 Release</span>
+                </div>
+                <div class="p-4 pt-5">
+                    <div class="flex items-center justify-between text-xs text-terracotta font-bold uppercase tracking-wider mb-1">
+                        <span>Mixed Media</span>
+                        <span>2026</span>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-charcoal group-hover:text-terracotta transition-colors">Golden Energy</h3>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="gallery-item cloud-card p-4 cursor-pointer group" data-category="works" onclick="openLightbox('Terracotta Horizon', 'Works', 'Official collection image uploading for 2026 launch.')">
+                <div class="aspect-[4/3] bg-cream-100 rounded-2xl flex flex-col items-center justify-center p-6 text-center border border-fluff-border group-hover:bg-sunshine-soft transition-colors relative overflow-hidden">
+                    <i class="fa-solid fa-sun text-3xl text-sunshine mb-2 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs font-mono font-bold text-charcoal-muted">ARTWORK UPLOAD PENDING</span>
+                    <span class="text-[10px] text-terracotta font-semibold mt-1">2026 Release</span>
+                </div>
+                <div class="p-4 pt-5">
+                    <div class="flex items-center justify-between text-xs text-terracotta font-bold uppercase tracking-wider mb-1">
+                        <span>Works</span>
+                        <span>2026</span>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-charcoal group-hover:text-terracotta transition-colors">Terracotta Horizon</h3>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="gallery-item cloud-card p-4 cursor-pointer group" data-category="sculptures" onclick="openLightbox('Poodle Silhouette Study', 'Sculptures', 'Official collection image uploading for 2026 launch.')">
+                <div class="aspect-[4/3] bg-cream-100 rounded-2xl flex flex-col items-center justify-center p-6 text-center border border-fluff-border group-hover:bg-sunshine-soft transition-colors relative overflow-hidden">
+                    <i class="fa-solid fa-dog text-3xl text-terracotta/40 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs font-mono font-bold text-charcoal-muted">ARTWORK UPLOAD PENDING</span>
+                    <span class="text-[10px] text-terracotta font-semibold mt-1">2026 Release</span>
+                </div>
+                <div class="p-4 pt-5">
+                    <div class="flex items-center justify-between text-xs text-terracotta font-bold uppercase tracking-wider mb-1">
+                        <span>Sculptures</span>
+                        <span>2026</span>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-charcoal group-hover:text-terracotta transition-colors">Poodle Silhouette Study</h3>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="gallery-item cloud-card p-4 cursor-pointer group" data-category="mixed" onclick="openLightbox('Standard Rhythm', 'Mixed', 'Official collection image uploading for 2026 launch.')">
+                <div class="aspect-[4/3] bg-cream-100 rounded-2xl flex flex-col items-center justify-center p-6 text-center border border-fluff-border group-hover:bg-sunshine-soft transition-colors relative overflow-hidden">
+                    <i class="fa-solid fa-wand-magic-sparkles text-3xl text-sunshine mb-2 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs font-mono font-bold text-charcoal-muted">ARTWORK UPLOAD PENDING</span>
+                    <span class="text-[10px] text-terracotta font-semibold mt-1">2026 Release</span>
+                </div>
+                <div class="p-4 pt-5">
+                    <div class="flex items-center justify-between text-xs text-terracotta font-bold uppercase tracking-wider mb-1">
+                        <span>Mixed Media</span>
+                        <span>2026</span>
+                    </div>
+                    <h3 class="font-display text-lg font-bold text-charcoal group-hover:text-terracotta transition-colors">Standard Rhythm</h3>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-cream-100 border-t border-fluff-border">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-terracotta">Say Hello</span>
+                    <h2 class="font-display text-4xl sm:text-5xl font-bold text-charcoal">Get in touch.</h2>
+                    <p class="text-charcoal-muted text-base">
+                        Have a question or looking to collaborate for our 2026 launch? Drop us a line anytime.
+                    </p>
+                    
+                    <!-- Direct Email Box -->
+                    <div class="p-6 bg-cream-50 rounded-2xl border border-fluff-border shadow-sm space-y-3">
+                        <div class="text-xs font-bold uppercase tracking-wider text-charcoal-muted">Direct Email</div>
+                        <a href="mailto:standardchaosstudio@gmail.com" class="font-display text-lg font-bold text-terracotta hover:underline block break-all">
+                            standardchaosstudio@gmail.com
+                        </a>
+                        <div class="text-xs text-charcoal-muted flex items-center gap-2 pt-1">
+                            <i class="fa-solid fa-clock text-sunshine"></i>
+                            <span>Replies usually within 24 hours</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7">
+                    <form onsubmit="event.preventDefault(); showFormSuccess();" class="p-8 bg-cream-50 rounded-3xl border border-fluff-border shadow-cloud space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs uppercase font-bold text-charcoal-muted mb-2">Your Name</label>
+                                <input type="text" required placeholder="Name" class="w-full px-4 py-3.5 bg-cream-100 border border-fluff-border rounded-xl text-charcoal placeholder-charcoal-muted/50 focus:outline-none focus:border-terracotta text-sm transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase font-bold text-charcoal-muted mb-2">Email Address</label>
+                                <input type="email" required placeholder="email@example.com" class="w-full px-4 py-3.5 bg-cream-100 border border-fluff-border rounded-xl text-charcoal placeholder-charcoal-muted/50 focus:outline-none focus:border-terracotta text-sm transition-colors">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase font-bold text-charcoal-muted mb-2">Message</label>
+                            <textarea rows="4" required placeholder="Write your message..." class="w-full px-4 py-3.5 bg-cream-100 border border-fluff-border rounded-xl text-charcoal placeholder-charcoal-muted/50 focus:outline-none focus:border-terracotta text-sm transition-colors"></textarea>
+                        </div>
+                        <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-terracotta hover:bg-terracotta-hover text-white text-xs font-bold uppercase tracking-wider rounded-full transition-all shadow-md">
+                            Send Message
+                        </button>
+                        
+                        <div id="formToast" class="hidden p-4 bg-sunshine-soft border border-sunshine text-charcoal text-xs font-bold rounded-xl flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-terracotta text-base"></i>
+                            <span>Message sent! We will get back to you at standardchaosstudio@gmail.com</span>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-fluff-border py-12 bg-cream-50">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-charcoal-muted">
+            <div class="flex items-center gap-2 font-display font-bold text-charcoal">
+                <span>STANDARD CHAOS STUDIO</span>
+                <span>© 2026</span>
+            </div>
+            
+            <div class="font-display text-sm text-terracotta font-bold tracking-widest uppercase">
+                Live and let live.
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="mailto:standardchaosstudio@gmail.com" class="hover:text-terracotta transition-colors flex items-center gap-1.5 font-bold">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>standardchaosstudio@gmail.com</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-charcoal/60 backdrop-blur-sm hidden flex items-center justify-center p-6">
+        <div class="relative bg-cream-50 border border-fluff-border rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 text-charcoal-muted hover:text-terracotta p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="aspect-[4/3] bg-cream-100 rounded-2xl border border-fluff-border flex flex-col items-center justify-center text-charcoal-muted p-6 text-center">
+                <i class="fa-solid fa-cloud-arrow-up text-3xl text-terracotta mb-2"></i>
+                <span class="text-xs font-mono font-bold text-charcoal">PREVIEW PLACEHOLDER</span>
+                <span class="text-[11px] text-terracotta mt-1">Ready for 2026 artwork uploads</span>
+            </div>
+
+            <div>
+                <span id="modalCategory" class="text-xs font-bold text-terracotta uppercase">CATEGORY</span>
+                <h3 id="modalTitle" class="font-display text-xl font-bold text-charcoal mt-1">Artwork Title</h3>
+                <p id="modalDesc" class="text-charcoal-muted text-xs font-medium mt-2">Description</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Banner for Fluff Boost -->
+    <div id="vibeToast" class="fixed bottom-6 right-6 z-50 hidden bg-white border-2 border-sunshine px-6 py-4 rounded-2xl shadow-fluffy flex items-center gap-3 animate-bounce">
+        <i class="fa-solid fa-paw text-terracotta text-lg"></i>
+        <span id="vibeQuote" class="text-xs font-bold text-charcoal">Live and let live! 🐾</span>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Mobile Navigation Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Gallery Filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-terracotta', 'text-white', 'shadow-sm');
+                    b.classList.add('text-charcoal-muted');
+                });
+                btn.classList.add('active', 'bg-terracotta', 'text-white', 'shadow-sm');
+                btn.classList.remove('text-charcoal-muted');
+
+                const filter = btn.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Lightbox Functions
+        function openLightbox(title, category, desc) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalCategory').textContent = category;
+            document.getElementById('modalDesc').textContent = desc;
+            document.getElementById('lightbox').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+        }
+
+        // Form Success Toast
+        function showFormSuccess() {
+            const toast = document.getElementById('formToast');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+        }
+
+        // Interactive Fluff & Vibe Particle Boost
+        const quotes = [
+            "Live and let live! 🐾",
+            "Good energy, soft fluff, big art! ✨",
+            "Studio mascot says: Keep creating! 🐩",
+            "2026 is going to be wonderful ☀️",
+            "Stay curious and stay fluffy! ☁️"
+        ];
+
+        function triggerFluffBoost(e) {
+            // Spawn floating fluff particles
+            const symbols = ['🐩', '☁️', '✨', '🐾', '💛'];
+            for (let i = 0; i < 6; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'fluff-particle text-2xl';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                // Position near click or center
+                const x = e.clientX + (Math.random() * 80 - 40);
+                const y = e.clientY + (Math.random() * 80 - 40);
+                
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                document.body.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 1800);
+            }
+
+            // Show Motivational Vibe Toast
+            const toast = document.getElementById('vibeToast');
+            const quoteEl = document.getElementById('vibeQuote');
+            quoteEl.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+            toast.classList.remove('hidden');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
