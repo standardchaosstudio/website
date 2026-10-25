@@ -1,0 +1,35 @@
+# ─────────────────────────────────────────────────────────────
+#  STANDARD CHAOS STUDIO · GALLERY
+#
+#  Each piece is a little block. Leave one empty line between pieces.
+#  The first line is the title. The lines under it are optional:
+#
+#    file:    the image's name in the art folder (e.g. cloud-study.jpg)
+#    year:    2026
+#    caption: anything you like (size, materials, a story)
+#    status:  shows a little tag, e.g. Available, Sold, New
+#
+#  Lines starting with # are notes and don't show on the site.
+#  Pieces show up in the same order as this list.
+#  No file yet? The piece shows a colorful "Photo soon" tile.
+# ─────────────────────────────────────────────────────────────
+
+Cloud Study No. 1
+caption: Acrylic on canvas.
+
+Fluff & Form
+
+Golden Energy
+
+Terracotta Horizon
+
+Poodle Silhouette Study
+
+Standard Rhythm
+
+# Example of a finished entry (remove the # signs to use it):
+# Sunday Zoomies
+# file: sunday-zoomies.jpg
+# year: 2026
+# caption: Gouache on paper, 18 × 24 in. Painted during a very loud morning.
+# status: Available
